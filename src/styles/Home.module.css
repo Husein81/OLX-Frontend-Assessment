@@ -1,0 +1,313 @@
+.container {
+  width: 100%;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 16px;
+}
+
+.loading p {
+  color: #666666;
+  font-size: 16px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e0e0e0;
+  border-top: 3px solid #002f34;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.error {
+  text-align: center;
+  padding: 60px;
+  color: #cc0000;
+  background-color: #fff0f0;
+  border-radius: 12px;
+  font-size: 18px;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, #002f34 0%, #004d54 100%);
+  border-radius: 16px;
+  padding: 56px 32px;
+  margin-bottom: 40px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 47, 52, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(35, 229, 219, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.heroContent {
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.heroTitle {
+  font-size: 40px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 12px 0;
+  line-height: 1.2;
+}
+
+.heroSubtitle {
+  font-size: 17px;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 28px 0;
+  line-height: 1.5;
+}
+
+.searchBar {
+  display: flex;
+  max-width: 550px;
+  margin: 0 auto;
+  border-radius: 50px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+}
+
+.searchInput {
+  flex: 1;
+  padding: 16px 24px;
+  border: none;
+  font-size: 15px;
+  outline: none;
+  background-color: #ffffff;
+}
+
+.searchInput::placeholder {
+  color: #999999;
+}
+
+.searchButton {
+  padding: 16px 32px;
+  background: linear-gradient(135deg, #23e5db 0%, #00b4a4 100%);
+  color: #002f34;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.searchButton:hover {
+  background: linear-gradient(135deg, #00b4a4 0%, #23e5db 100%);
+  transform: scale(1.02);
+}
+
+/* Categories Row */
+.categoriesRow {
+  margin-bottom: 40px;
+}
+
+.sectionTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: #002f34;
+  margin: 0 0 20px 0;
+}
+
+.categoryChips {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.categoryChip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background-color: #ffffff;
+  border-radius: 50px;
+  text-decoration: none;
+  color: #002f34;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #e0e0e0;
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.categoryChip:hover {
+  border-color: #23e5db;
+  background-color: #f0fafa;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(35, 229, 219, 0.15);
+}
+
+.chipIcon {
+  font-size: 20px;
+}
+
+.chipName {
+  white-space: nowrap;
+}
+
+/* Ads Section */
+.adsSection {
+  margin-bottom: 40px;
+}
+
+.adsSectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.viewAllButton {
+  background: none;
+  border: none;
+  color: #23e5db;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 16px;
+  transition: all 0.2s;
+  border-radius: 8px;
+}
+
+.viewAllButton:hover {
+  background-color: #f0fafa;
+  color: #002f34;
+}
+
+.adsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* Call to Action Section */
+.ctaSection {
+  margin-bottom: 20px;
+}
+
+.ctaCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  background: linear-gradient(135deg, #f0fafa 0%, #ffffff 100%);
+  border-radius: 16px;
+  padding: 40px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.ctaContent {
+  flex: 1;
+}
+
+.ctaTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: #002f34;
+  margin: 0 0 8px 0;
+}
+
+.ctaDescription {
+  font-size: 15px;
+  color: #666666;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero {
+    padding: 40px 20px;
+    border-radius: 12px;
+  }
+
+  .heroTitle {
+    font-size: 28px;
+  }
+
+  .heroSubtitle {
+    font-size: 15px;
+  }
+
+  .searchBar {
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .searchInput {
+    padding: 14px 20px;
+    border-radius: 0;
+  }
+
+  .searchButton {
+    padding: 14px;
+    border-radius: 0;
+  }
+
+  .sectionTitle {
+    font-size: 20px;
+  }
+
+  .categoryChips {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ctaCard {
+    flex-direction: column;
+    text-align: center;
+    padding: 32px 24px;
+    border-radius: 12px;
+  }
+
+  .adsGrid {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroTitle {
+    font-size: 24px;
+  }
+
+  .adsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
