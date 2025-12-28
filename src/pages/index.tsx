@@ -1,78 +1,182 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
+import React from "react";
+import { GetServerSideProps } from "next";
+import Head from "next/head";
+import Link from "next/link";
+import {
+  dehydrate,
+  QueryClient,
+  HydrationBoundary,
+  DehydratedState,
+} from "@tanstack/react-query";
+import { Layout, Button } from "@/components";
+import { AdCard } from "@/components/AdCard/AdCard";
+import { ApiService } from "@/services/api";
+import { MockDataService } from "@/services/mockData";
+import { useCategories } from "@/hooks";
+import { useLocale } from "@/contexts/LocaleContext";
+import { Category, Ad } from "@/types/api";
+import styles from "@/styles/Home.module.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+interface PageProps {
+  dehydratedState: DehydratedState;
+  featuredAds: Ad[];
+}
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// Category icons mapping
+const CATEGORY_ICONS: Record<string, string> = {
+  vehicles: "🚗",
+  cars: "🚗",
+  properties: "🏠",
+  mobiles: "📱",
+  electronics: "💻",
+  furniture: "🛋️",
+  jobs: "💼",
+  services: "🔧",
+  fashion: "👗",
+  kids: "👶",
+  sports: "⚽",
+  hobbies: "🎮",
+  pets: "🐕",
+  business: "🏭",
+};
 
-export default function Home() {
+const getCategoryIcon = (slug: string, name: string): string => {
+  const lowerSlug = slug.toLowerCase();
+  const lowerName = name.toLowerCase();
+
+  for (const [key, icon] of Object.entries(CATEGORY_ICONS)) {
+    if (lowerSlug.includes(key) || lowerName.includes(key)) {
+      return icon;
+    }
+  }
+  return "📦";
+};
+
+export default function Home({ dehydratedState, featuredAds }: PageProps) {
+  const { data: categoriesResponse, isLoading, error } = useCategories();
+  const { t } = useLocale();
+
+  const categories = categoriesResponse || [];
+  const mainCategories = categories.filter((cat: Category) => !cat.parentId);
+
   return (
-    <div
-      className={`${geistSans.className} ${geistMono.className} flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black`}
-    >
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <HydrationBoundary state={dehydratedState}>
+      <Head>
+        <title>{`${t.common.olx} - ${t.home.heroTitle}`}</title>
+        <meta name="description" content={t.home.heroSubtitle} />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          property="og:title"
+          content={`${t.common.olx} - ${t.home.heroTitle}`}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the index.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs/pages/getting-started?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+        <meta property="og:description" content={t.home.heroSubtitle} />
+        <meta property="og:type" content="website" />
+      </Head>
+      <Layout>
+        {isLoading ? (
+          <div className={styles.container}>
+            <div className={styles.loading}>
+              <div className={styles.spinner}></div>
+              <p>{t.home.loading}</p>
+            </div>
+          </div>
+        ) : error ? (
+          <div className={styles.container}>
+            <div className={styles.error}>
+              <p>{t.home.error}</p>
+            </div>
+          </div>
+        ) : (
+          <div className={styles.container}>
+            {/* Hero Section */}
+            <section className={styles.hero}>
+              <div className={styles.heroContent}>
+                <h1 className={styles.heroTitle}>{t.home.heroTitle}</h1>
+                <p className={styles.heroSubtitle}>{t.home.heroSubtitle}</p>
+                <div className={styles.searchBar}>
+                  <input
+                    type="text"
+                    placeholder={t.home.searchPlaceholder}
+                    className={styles.searchInput}
+                  />
+                  <button className={styles.searchButton}>{t.home.search}</button>
+                </div>
+              </div>
+            </section>
+
+            {/* Categories Row */}
+            <section className={styles.categoriesRow}>
+              <h2 className={styles.sectionTitle}>{t.home.browseByCategory}</h2>
+              <div className={styles.categoryChips}>
+                {mainCategories.slice(0, 10).map((category: Category) => (
+                  <Link
+                    key={category.id}
+                    href="/post-ad"
+                    className={styles.categoryChip}
+                  >
+                    <span className={styles.chipIcon}>
+                      {getCategoryIcon(category.slug, category.name)}
+                    </span>
+                    <span className={styles.chipName}>{category.name}</span>
+                  </Link>
+                ))}
+              </div>
+            </section>
+
+            {/* Featured Ads Section */}
+            {featuredAds.length > 0 && (
+              <section className={styles.adsSection}>
+                <div className={styles.adsSectionHeader}>
+                  <h2 className={styles.sectionTitle}>{t.home.featuredAds}</h2>
+                  <button className={styles.viewAllButton}>
+                    {t.home.viewAll} →
+                  </button>
+                </div>
+                <div className={styles.adsGrid}>
+                  {featuredAds.map((ad) => (
+                    <AdCard key={ad.id} ad={ad} />
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* Call to Action */}
+            <section className={styles.ctaSection}>
+              <div className={styles.ctaCard}>
+                <div className={styles.ctaContent}>
+                  <h2 className={styles.ctaTitle}>{t.home.readyToStart}</h2>
+                  <p className={styles.ctaDescription}>
+                    {t.home.readyToStartDesc}
+                  </p>
+                </div>
+                <Link href="/post-ad">
+                  <Button variant="primary" size="large">
+                    {t.home.postAnAdNow}
+                  </Button>
+                </Link>
+              </div>
+            </section>
+          </div>
+        )}
+      </Layout>
+    </HydrationBoundary>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ["categories"],
+    queryFn: () => ApiService.fetchCategories(),
+  });
+
+  const featuredAds = await MockDataService.fetchFeaturedAds(9);
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+      featuredAds,
+    },
+  };
+};

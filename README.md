@@ -1,40 +1,131 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# OLX Lebanon - Frontend Assessment
 
-## Getting Started
+A classified ads platform built with Next.js (Pages Router), TypeScript, and custom CSS styling that mimics the OLX Lebanon app.
 
-First, run the development server:
+![Next.js](https://img.shields.io/badge/Next.js-16.1.1-black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
+![TanStack Query](https://img.shields.io/badge/TanStack%20Query-5.0-red)
+![Zod](https://img.shields.io/badge/Zod-3.0-purple)
+
+## 🚀 Features
+
+### Implemented Screens
+
+1. **Home Screen** (`/`)
+   - Hero section with search functionality
+   - Category chips for quick navigation
+   - Featured ads grid (3+ categories: Cars, Properties, Mobiles)
+   - Call-to-action section
+   - Server-side rendered (SSR) for SEO
+
+2. **Post An Ad** (`/post-ad`)
+   - OLX-style two-column category selector
+   - Dynamic form fields based on selected category
+   - Form validation with Zod
+   - Support for Properties for Sale & Cars for Sale categories
+
+### Technical Features
+
+- ✅ **No external UI libraries** (MaterialUI, etc.)
+- ✅ **No CSS utility frameworks** (Tailwind, etc.)
+- ✅ **Next.js Pages Router** with TypeScript
+- ✅ **Custom CSS Modules** for styling
+- ✅ **TanStack Query** for data fetching and caching
+- ✅ **Zod** for form validation
+- ✅ **Arabic & English** language support (RTL/LTR)
+- ✅ **SSR** for home page
+- ✅ **Mock ads** from 3 categories (Cars, Apartments, Mobiles)
+
+## 📦 Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# Install dependencies
+pnpm install
+
+# Start development server
 pnpm dev
-# or
-bun dev
+
+# Build for production
+pnpm build
+
+# Start production server
+pnpm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🏗️ Project Structure
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```
+src/
+├── components/          # Reusable UI components
+│   ├── AdCard/         # Ad display card
+│   ├── Button/         # Button component
+│   ├── Card/           # Card wrapper
+│   ├── Input/          # Form input
+│   ├── Layout/         # Main layout with header/footer
+│   ├── LanguageSwitcher/ # EN/AR toggle
+│   ├── Select/         # Dropdown select
+│   └── Textarea/       # Multi-line input
+├── contexts/           # React contexts
+│   └── LocaleContext/  # i18n context
+├── hooks/              # Custom TanStack Query hooks
+│   ├── useCategories.ts
+│   └── useCategoryFields.ts
+├── i18n/               # Translations
+│   └── translations.ts
+├── pages/              # Next.js pages
+│   ├── index.tsx       # Home page (SSR)
+│   ├── post-ad.tsx     # Post an ad page
+│   └── _app.tsx        # App wrapper
+├── schemas/            # Zod validation schemas
+├── services/           # API services
+│   ├── api.ts          # OLX API integration
+│   └── mockData.ts     # Mock ads data
+├── styles/             # CSS Modules
+├── types/              # TypeScript types
+└── utils/              # Utilities and constants
+```
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## 🔌 API Integration
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+The app integrates with OLX Lebanon's public APIs:
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Categories API**: `https://www.olx.com.lb/api/categories`
+- **Category Fields API**: `https://www.olx.com.lb/api/categoryFields`
 
-## Learn More
+With fallback mock data when the API is unavailable.
 
-To learn more about Next.js, take a look at the following resources:
+## 🌐 Internationalization
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+The app supports:
+- **English** (LTR)
+- **Arabic** (RTL)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Language preference is persisted in localStorage.
 
-## Deploy on Vercel
+## 🎨 Design
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The UI is designed to match the OLX Lebanon app with:
+- OLX brand colors (#002f34, #23e5db)
+- Clean, modern card-based layouts
+- Responsive design for mobile and desktop
+- Accessible form components
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+## 📝 Form Validation
+
+Using Zod for:
+- Title: 10-100 characters
+- Description: 20-5000 characters
+- Price: 0-999,999,999
+- Dynamic category-specific fields
+
+## 🧪 Supported Categories
+
+The form fully supports:
+- ✅ Properties for Sale
+- ✅ Cars for Sale
+- ✅ Mobile Phones
+- ✅ All other categories via dynamic field loading
+
+## 📄 License
+
+MIT
