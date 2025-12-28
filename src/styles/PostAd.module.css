@@ -1,0 +1,757 @@
+/* Loading & Error States */
+.loadingContainer,
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 16px;
+}
+
+.loadingContainer p {
+  color: #666666;
+  font-size: 16px;
+}
+
+.errorContainer {
+  color: #cc0000;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e0e0e0;
+  border-top: 3px solid #002f34;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Category Selection Page */
+.categoryPage {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.categoryHeader {
+  margin-bottom: 24px;
+}
+
+.categoryHeader h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #002f34;
+  margin: 0 0 8px 0;
+}
+
+.categoryHeader p {
+  font-size: 16px;
+  color: #666666;
+  margin: 0;
+}
+
+.categoryContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  overflow: visible;
+  min-height: 500px;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.mainCategories,
+.subCategories {
+  padding: 0;
+  position: relative;
+}
+
+.mainCategories {
+  border-right: 1px solid #e0e0e0;
+}
+
+.mainCategories h2,
+.subCategories h2 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #666666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 16px 20px;
+  margin: 0;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #fafafa;
+}
+
+.categoryList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.categoryItem {
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+  border-bottom: 1px solid #f0f0f0;
+  position: relative;
+}
+
+.categoryItem:hover {
+  background-color: #f8f8f8;
+}
+
+.categoryItem.active {
+  background-color: #e8f7f7;
+  border-left: 3px solid #23e5db;
+}
+
+.categoryItem.hasFields {
+  background-color: #fafff5;
+}
+
+.categoryItem.hasFields:hover {
+  background-color: #f0f8e8;
+}
+
+.categoryIcon {
+  font-size: 22px;
+  margin-right: 12px;
+  width: 32px;
+  text-align: center;
+}
+
+.categoryName {
+  flex: 1;
+  font-size: 15px;
+  color: #002f34;
+}
+
+.fieldsIndicator {
+  font-size: 14px;
+  margin-right: 8px;
+  opacity: 0.7;
+}
+
+.arrow {
+  font-size: 20px;
+  color: #999999;
+  font-weight: 300;
+}
+
+/* Form Page Layout */
+.formPage {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.formHeader {
+  margin-bottom: 24px;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: #002f34;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 0;
+  margin-bottom: 12px;
+  transition: color 0.2s;
+}
+
+.backButton:hover {
+  color: #23e5db;
+}
+
+.selectedPath {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #666666;
+}
+
+.selectedPath span {
+  color: #002f34;
+}
+
+.pathSeparator {
+  color: #999999 !important;
+}
+
+/* Two-column form layout */
+.formLayout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+  align-items: start;
+}
+
+.formMain {
+  min-width: 0;
+}
+
+.formCard {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 32px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #002f34;
+  margin: 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.sectionDesc {
+  font-size: 14px;
+  color: #666666;
+  margin: -8px 0 0 0;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.formGrid>*:only-child,
+.formGrid>*:nth-last-child(1):nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+/* Category Display in Form */
+.categoryDisplay {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.categoryDisplay label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #666666;
+}
+
+.categoryBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #f5f5f5;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #002f34;
+}
+
+.categoryBadge .categoryIcon {
+  font-size: 18px;
+  margin-right: 4px;
+  width: auto;
+}
+
+.changeButton {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: #23e5db;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: color 0.2s;
+}
+
+.changeButton:hover {
+  color: #002f34;
+}
+
+/* Image Upload */
+.imageUploadArea {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.uploadDropzone {
+  border: 2px dashed #d0d0d0;
+  border-radius: 12px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #fafafa;
+}
+
+.uploadDropzone:hover {
+  border-color: #23e5db;
+  background: #f0fafa;
+}
+
+.fileInput {
+  display: none;
+}
+
+.uploadIcon {
+  color: #23e5db;
+}
+
+.uploadText {
+  font-size: 16px;
+  font-weight: 500;
+  color: #002f34;
+  margin: 0;
+}
+
+.uploadHint {
+  font-size: 13px;
+  color: #999999;
+}
+
+.imagePreviewGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.imagePreview {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+}
+
+.imagePreview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.removeImageBtn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.removeImageBtn:hover {
+  background: rgba(200, 0, 0, 0.8);
+}
+
+.mainImageBadge {
+  position: absolute;
+  bottom: 4px;
+  left: 4px;
+  background: #002f34;
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+/* Price Row with Negotiable */
+.priceRow {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.negotiableCheckbox,
+.showPhoneCheckbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 14px;
+  color: #002f34;
+}
+
+.negotiableCheckbox input,
+.showPhoneCheckbox input {
+  width: 18px;
+  height: 18px;
+  accent-color: #002f34;
+  cursor: pointer;
+}
+
+/* Details Table (for Vehicles) */
+.detailsTable {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.detailRow {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.detailRow:last-child {
+  border-bottom: none;
+}
+
+.detailLabel {
+  padding: 14px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #002f34;
+  background-color: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+}
+
+.detailValue {
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+}
+
+.detailSelect,
+.detailInput {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  background-color: white;
+  color: #002f34;
+  transition: border-color 0.2s;
+}
+
+.detailSelect:focus,
+.detailInput:focus {
+  outline: none;
+  border-color: #23e5db;
+}
+
+.detailSelect {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+
+/* Amenities Grid (for Properties) */
+.amenitiesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  padding: 16px;
+  background-color: #fafafa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.amenityCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.amenityCheckbox:hover {
+  background-color: #f0f0f0;
+}
+
+.amenityCheckbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkmark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #d0d0d0;
+  border-radius: 4px;
+  background-color: white;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.amenityCheckbox input[type="checkbox"]:checked+.checkmark {
+  background-color: #23e5db;
+  border-color: #23e5db;
+}
+
+.checkIcon {
+  width: 14px;
+  height: 14px;
+  fill: #002f34;
+}
+
+.amenityLabel {
+  font-size: 14px;
+  color: #002f34;
+  line-height: 1.4;
+}
+
+/* Loading Fields */
+.loadingFields {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px;
+  gap: 12px;
+}
+
+.loadingFields p {
+  color: #666666;
+  font-size: 14px;
+  margin: 0;
+}
+
+.submitSection {
+  padding-top: 16px;
+}
+
+/* Help Sidebar */
+.helpSidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: sticky;
+  top: 100px;
+}
+
+.helpCard {
+  background: linear-gradient(135deg, #f0fafa 0%, #ffffff 100%);
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.helpCard h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #002f34;
+  margin: 0;
+}
+
+.helpTip {
+  display: flex;
+  gap: 12px;
+}
+
+.tipIcon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.tipContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tipContent h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #002f34;
+  margin: 0;
+}
+
+.tipContent p {
+  font-size: 13px;
+  color: #666666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.helpLink {
+  background: #002f34;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.helpLink:hover {
+  background: #23e5db;
+  color: #002f34;
+}
+
+.faqCard {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faqCard h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #002f34;
+  margin: 0;
+}
+
+.faqLink {
+  font-size: 14px;
+  color: #23e5db;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.faqLink:hover {
+  color: #002f34;
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .formLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .helpSidebar {
+    position: static;
+    order: -1;
+  }
+
+  .helpCard {
+    background: #f8f8f8;
+  }
+}
+
+@media (max-width: 768px) {
+  .categoryContainer {
+    grid-template-columns: 1fr;
+    overflow: hidden;
+  }
+
+  .mainCategories {
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .subCategories {
+    display: block;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .formCard {
+    padding: 20px;
+  }
+
+  .imagePreviewGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .detailRow {
+    grid-template-columns: 1fr;
+  }
+
+  .detailLabel {
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px 16px;
+  }
+
+  .detailValue {
+    padding: 10px 12px;
+  }
+
+  .amenitiesGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .imagePreviewGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .amenitiesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .uploadDropzone {
+    padding: 24px;
+  }
+}
