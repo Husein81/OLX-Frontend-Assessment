@@ -207,26 +207,29 @@ export default function PostAd({ dehydratedState }: PageProps) {
   }, []);
 
   // Image upload handlers
-  const handleImageUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files) return;
+  const handleImageUpload = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const files = e.target.files;
+      if (!files) return;
 
-    const remainingSlots = 8 - images.length;
-    const filesToAdd = Array.from(files).slice(0, remainingSlots);
+      const remainingSlots = 8 - images.length;
+      const filesToAdd = Array.from(files).slice(0, remainingSlots);
 
-    const newImages: ImagePreview[] = filesToAdd.map((file) => ({
-      id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      file,
-      preview: URL.createObjectURL(file),
-    }));
+      const newImages: ImagePreview[] = filesToAdd.map((file) => ({
+        id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        file,
+        preview: URL.createObjectURL(file),
+      }));
 
-    setImages((prev) => [...prev, ...newImages]);
+      setImages((prev) => [...prev, ...newImages]);
 
-    // Reset file input
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  }, [images.length]);
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    },
+    [images.length]
+  );
 
   const handleRemoveImage = useCallback((id: string) => {
     setImages((prev) => {
@@ -243,26 +246,29 @@ export default function PostAd({ dehydratedState }: PageProps) {
     e.stopPropagation();
   }, []);
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
 
-    const files = e.dataTransfer.files;
-    if (!files) return;
+      const files = e.dataTransfer.files;
+      if (!files) return;
 
-    const remainingSlots = 8 - images.length;
-    const filesToAdd = Array.from(files)
-      .filter((file) => file.type.startsWith("image/"))
-      .slice(0, remainingSlots);
+      const remainingSlots = 8 - images.length;
+      const filesToAdd = Array.from(files)
+        .filter((file) => file.type.startsWith("image/"))
+        .slice(0, remainingSlots);
 
-    const newImages: ImagePreview[] = filesToAdd.map((file) => ({
-      id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      file,
-      preview: URL.createObjectURL(file),
-    }));
+      const newImages: ImagePreview[] = filesToAdd.map((file) => ({
+        id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        file,
+        preview: URL.createObjectURL(file),
+      }));
 
-    setImages((prev) => [...prev, ...newImages]);
-  }, [images.length]);
+      setImages((prev) => [...prev, ...newImages]);
+    },
+    [images.length]
+  );
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
@@ -279,8 +285,9 @@ export default function PostAd({ dehydratedState }: PageProps) {
     if (customFieldConfig) {
       customFieldConfig.mainFields.forEach((field) => {
         if (field.required && !formData[field.name]) {
-          newErrors[field.name] = `${locale === "ar" ? field.labelAr : field.label
-            } is required`;
+          newErrors[field.name] = `${
+            locale === "ar" ? field.labelAr : field.label
+          } is required`;
         }
       });
     }
@@ -475,10 +482,11 @@ export default function PostAd({ dehydratedState }: PageProps) {
                     return (
                       <li
                         key={category.id}
-                        className={`${styles.categoryItem} ${selectedCategory?.id === category.id
+                        className={`${styles.categoryItem} ${
+                          selectedCategory?.id === category.id
                             ? styles.active
                             : ""
-                          } ${hasFields ? styles.hasFields : ""}`}
+                        } ${hasFields ? styles.hasFields : ""}`}
                         onClick={() => handleCategoryClick(category)}
                       >
                         <span className={styles.categoryIcon}>
@@ -518,10 +526,11 @@ export default function PostAd({ dehydratedState }: PageProps) {
                       return (
                         <li
                           key={subCategory.id}
-                          className={`${styles.categoryItem} ${selectedSubCategory?.id === subCategory.id
+                          className={`${styles.categoryItem} ${
+                            selectedSubCategory?.id === subCategory.id
                               ? styles.active
                               : ""
-                            } ${hasFields ? styles.hasFields : ""}`}
+                          } ${hasFields ? styles.hasFields : ""}`}
                           onClick={() => handleSubCategoryClick(subCategory)}
                         >
                           <span className={styles.categoryName}>
@@ -568,7 +577,11 @@ export default function PostAd({ dehydratedState }: PageProps) {
               {/* Main Form */}
               <div className={styles.formMain}>
                 <Card className={styles.formCard}>
-                  <form onSubmit={handleSubmit} className={styles.form} noValidate>
+                  <form
+                    onSubmit={handleSubmit}
+                    className={styles.form}
+                    noValidate
+                  >
                     {/* Selected Category Display */}
                     <div className={styles.section}>
                       <div className={styles.categoryDisplay}>
@@ -576,12 +589,17 @@ export default function PostAd({ dehydratedState }: PageProps) {
                         <div className={styles.categoryBadge}>
                           <span className={styles.categoryIcon}>
                             {getCategoryIcon(
-                              selectedSubCategory?.slug || selectedCategory?.slug || "",
-                              selectedSubCategory?.name || selectedCategory?.name || ""
+                              selectedSubCategory?.slug ||
+                                selectedCategory?.slug ||
+                                "",
+                              selectedSubCategory?.name ||
+                                selectedCategory?.name ||
+                                ""
                             )}
                           </span>
                           <span>
-                            {selectedSubCategory?.name || selectedCategory?.name}
+                            {selectedSubCategory?.name ||
+                              selectedCategory?.name}
                           </span>
                           <button
                             type="button"
@@ -597,7 +615,9 @@ export default function PostAd({ dehydratedState }: PageProps) {
                     {/* Image Upload Section */}
                     <div className={styles.section}>
                       <h2>{t.postAd.uploadImages}</h2>
-                      <p className={styles.sectionDesc}>{t.postAd.uploadImagesDesc}</p>
+                      <p className={styles.sectionDesc}>
+                        {t.postAd.uploadImagesDesc}
+                      </p>
 
                       <div className={styles.imageUploadArea}>
                         <div
@@ -613,18 +633,33 @@ export default function PostAd({ dehydratedState }: PageProps) {
                             multiple
                             onChange={handleImageUpload}
                             className={styles.fileInput}
+                            aria-label={t.postAd.uploadImages}
                           />
                           <div className={styles.uploadIcon}>
-                            <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" strokeWidth="1.5">
-                              <path d="M4 16l4-4 4 4M14 12l4-4 4 4M4 20h16M12 4v12" strokeLinecap="round" strokeLinejoin="round" />
+                            <svg
+                              viewBox="0 0 24 24"
+                              width="48"
+                              height="48"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                            >
+                              <path
+                                d="M4 16l4-4 4 4M14 12l4-4 4 4M4 20h16M12 4v12"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
                             </svg>
                           </div>
-                          <p className={styles.uploadText}>{t.postAd.dragDrop}</p>
+                          <p className={styles.uploadText}>
+                            {t.postAd.dragDrop}
+                          </p>
                           <span className={styles.uploadHint}>
                             {images.length > 0
-                              ? `${images.length} ${t.postAd.photoAdded} (${8 - images.length} remaining)`
-                              : t.postAd.maxPhotos
-                            }
+                              ? `${images.length} ${t.postAd.photoAdded} (${
+                                  8 - images.length
+                                } remaining)`
+                              : t.postAd.maxPhotos}
                           </span>
                         </div>
 
@@ -632,7 +667,10 @@ export default function PostAd({ dehydratedState }: PageProps) {
                           <div className={styles.imagePreviewGrid}>
                             {images.map((img, index) => (
                               <div key={img.id} className={styles.imagePreview}>
-                                <img src={img.preview} alt={`Preview ${index + 1}`} />
+                                <img
+                                  src={img.preview}
+                                  alt={`Preview ${index + 1}`}
+                                />
                                 <button
                                   type="button"
                                   onClick={() => handleRemoveImage(img.id)}
@@ -642,7 +680,9 @@ export default function PostAd({ dehydratedState }: PageProps) {
                                   ×
                                 </button>
                                 {index === 0 && (
-                                  <span className={styles.mainImageBadge}>Main</span>
+                                  <span className={styles.mainImageBadge}>
+                                    Main
+                                  </span>
                                 )}
                               </div>
                             ))}
@@ -654,7 +694,9 @@ export default function PostAd({ dehydratedState }: PageProps) {
                     {/* Video URL Section */}
                     <div className={styles.section}>
                       <h2>{t.postAd.addVideo}</h2>
-                      <p className={styles.sectionDesc}>{t.postAd.videoUrlDesc}</p>
+                      <p className={styles.sectionDesc}>
+                        {t.postAd.videoUrlDesc}
+                      </p>
                       <Input
                         name="videoUrl"
                         label={t.postAd.videoUrl}
@@ -695,7 +737,9 @@ export default function PostAd({ dehydratedState }: PageProps) {
                             <input
                               type="checkbox"
                               checked={isNegotiable}
-                              onChange={(e) => setIsNegotiable(e.target.checked)}
+                              onChange={(e) =>
+                                setIsNegotiable(e.target.checked)
+                              }
                             />
                             <span>{t.postAd.negotiable}</span>
                           </label>
@@ -736,45 +780,65 @@ export default function PostAd({ dehydratedState }: PageProps) {
                             : customFieldConfig.detailsTable.title}
                         </h2>
                         <div className={styles.detailsTable}>
-                          {customFieldConfig.detailsTable.fields.map((field) => (
-                            <div key={field.id} className={styles.detailRow}>
-                              <span className={styles.detailLabel}>
-                                {locale === "ar" ? field.labelAr : field.label}
-                              </span>
-                              <div className={styles.detailValue}>
-                                {field.type === "select" && field.options ? (
-                                  <select
-                                    name={field.name}
-                                    value={(formData[field.name] as string) || ""}
-                                    onChange={handleInputChange}
-                                    className={styles.detailSelect}
-                                  >
-                                    <option value="">
-                                      {locale === "ar" ? "اختر..." : "Select..."}
-                                    </option>
-                                    {field.options.map((opt) => (
-                                      <option key={opt.value} value={opt.value}>
-                                        {locale === "ar" ? opt.labelAr : opt.label}
+                          {customFieldConfig.detailsTable.fields.map(
+                            (field) => (
+                              <div key={field.id} className={styles.detailRow}>
+                                <span className={styles.detailLabel}>
+                                  {locale === "ar"
+                                    ? field.labelAr
+                                    : field.label}
+                                </span>
+                                <div className={styles.detailValue}>
+                                  {field.type === "select" && field.options ? (
+                                    <select
+                                      name={field.name}
+                                      value={
+                                        (formData[field.name] as string) || ""
+                                      }
+                                      onChange={handleInputChange}
+                                      className={styles.detailSelect}
+                                      aria-label={
+                                        locale === "ar"
+                                          ? field.labelAr
+                                          : field.label
+                                      }
+                                    >
+                                      <option value="">
+                                        {locale === "ar"
+                                          ? "اختر..."
+                                          : "Select..."}
                                       </option>
-                                    ))}
-                                  </select>
-                                ) : (
-                                  <input
-                                    type={field.type}
-                                    name={field.name}
-                                    value={(formData[field.name] as string) || ""}
-                                    onChange={handleInputChange}
-                                    className={styles.detailInput}
-                                    placeholder={
-                                      locale === "ar"
-                                        ? field.placeholderAr
-                                        : field.placeholder
-                                    }
-                                  />
-                                )}
+                                      {field.options.map((opt) => (
+                                        <option
+                                          key={opt.value}
+                                          value={opt.value}
+                                        >
+                                          {locale === "ar"
+                                            ? opt.labelAr
+                                            : opt.label}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  ) : (
+                                    <input
+                                      type={field.type}
+                                      name={field.name}
+                                      value={
+                                        (formData[field.name] as string) || ""
+                                      }
+                                      onChange={handleInputChange}
+                                      className={styles.detailInput}
+                                      placeholder={
+                                        locale === "ar"
+                                          ? field.placeholderAr
+                                          : field.placeholder
+                                      }
+                                    />
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                          ))}
+                            )
+                          )}
                         </div>
                       </div>
                     )}
@@ -788,34 +852,41 @@ export default function PostAd({ dehydratedState }: PageProps) {
                             : customFieldConfig.amenitiesTable.title}
                         </h2>
                         <div className={styles.amenitiesGrid}>
-                          {customFieldConfig.amenitiesTable.fields.map((field) => (
-                            <label
-                              key={field.id}
-                              className={styles.amenityCheckbox}
-                            >
-                              <input
-                                type="checkbox"
-                                name={field.name}
-                                checked={Boolean(formData[field.name])}
-                                onChange={(e) =>
-                                  handleCheckboxChange(field.name, e.target.checked)
-                                }
-                              />
-                              <span className={styles.checkmark}>
-                                {Boolean(formData[field.name]) && (
-                                  <svg
-                                    viewBox="0 0 24 24"
-                                    className={styles.checkIcon}
-                                  >
-                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                                  </svg>
-                                )}
-                              </span>
-                              <span className={styles.amenityLabel}>
-                                {locale === "ar" ? field.labelAr : field.label}
-                              </span>
-                            </label>
-                          ))}
+                          {customFieldConfig.amenitiesTable.fields.map(
+                            (field) => (
+                              <label
+                                key={field.id}
+                                className={styles.amenityCheckbox}
+                              >
+                                <input
+                                  type="checkbox"
+                                  name={field.name}
+                                  checked={Boolean(formData[field.name])}
+                                  onChange={(e) =>
+                                    handleCheckboxChange(
+                                      field.name,
+                                      e.target.checked
+                                    )
+                                  }
+                                />
+                                <span className={styles.checkmark}>
+                                  {Boolean(formData[field.name]) && (
+                                    <svg
+                                      viewBox="0 0 24 24"
+                                      className={styles.checkIcon}
+                                    >
+                                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                    </svg>
+                                  )}
+                                </span>
+                                <span className={styles.amenityLabel}>
+                                  {locale === "ar"
+                                    ? field.labelAr
+                                    : field.label}
+                                </span>
+                              </label>
+                            )
+                          )}
                         </div>
                       </div>
                     )}
@@ -948,7 +1019,9 @@ export default function PostAd({ dehydratedState }: PageProps) {
 
                 <div className={styles.faqCard}>
                   <h4>{t.help.faq}</h4>
-                  <a href="#" className={styles.faqLink}>{t.help.faqLink}</a>
+                  <a href="#" className={styles.faqLink}>
+                    {t.help.faqLink}
+                  </a>
                 </div>
               </aside>
             </div>
